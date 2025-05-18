@@ -43,16 +43,11 @@ This document contains guidelines for AI coding assistants. It is structured wit
 #### Git Usage (Solo Developer)
 
 1. Create git repo for each project with .gitignore
-2. **DEFAULT**: Use feature branches with local merge:
-   - Create: `git checkout -b feature/your-feature-name`
-   - Work and commit on feature branch
-   - Merge locally: `git checkout main && git merge feature/your-feature-name`
-   - Delete branch: `git branch -d feature/your-feature-name`
-   - Push main: `git push`
+2. Work directly on main branch (no need for feature branches with multiple AI agents sharing same filesystem)
 3. Conventional commit format: "type: Brief description" (fix, feat, docs, refactor, test, chore)
 4. Before committing: run lint/build checks and verify functionality
 5. Keep main branch stable and deployable
-6. Note: For team projects, use pull requests instead of local merges
+6. Commit regularly to track changes and enable rollback if needed
 
 ### Development Workflow
 
@@ -274,7 +269,11 @@ This document contains guidelines for AI coding assistants. It is structured wit
 3. Handle errors with proper rollback
 4. Follow naming conventions (snake_case for tables/columns)
 5. Use declarative schema workflow: https://supabase.com/docs/guides/local-development/declarative-database-schemas
-6. **IMPORTANT**: Stop database before diffs (`supabase stop` then `supabase db diff`)
+6. **Database Migration Workflow**:
+   - Stop the database: `supabase stop`
+   - Make schema changes (edit SQL files or use Studio)
+   - Start and apply migrations: `supabase start && supabase migration up`
+   - Push to production (assuming project linked): `supabase db push`
 7. Use Row Level Security (RLS) policies
 8. Optimize queries with indexes
 9. Handle real-time subscriptions carefully
