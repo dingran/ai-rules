@@ -13,6 +13,12 @@ This document contains guidelines for AI coding assistants. It is structured wit
 3. In README.md, include: "For detailed specifications, see CLAUDE.md"
 4. Update CLAUDE.md first, then sync README.md for major changes only
 5. Keep CLAUDE.md in project root
+6. **Use docs/ folder for topical documentation**:
+   - Store technical docs, product requirements, and design specs
+   - Use lowercase snake_case with date prefix (e.g., 20250517_color_system.md, 20250517_logging.md, 20250517_architecture.md)
+   - **Required docs**: `docs/TODO.md` and `docs/20YYMMDD_product_requirements.md` must be created for all projects
+   - Maintain an index of these documents in both CLAUDE.md and README.md
+   - **AI INSTRUCTION**: Proactively create TODO.md and product_requirements.md if missing, then notify the user
 
 #### TODO.md as Development Log
 
@@ -92,12 +98,14 @@ This document contains guidelines for AI coding assistants. It is structured wit
 4. Track findings in TODO.md under "Notes > Technical Debt"
 5. Always refactor before major feature additions
 
-### Debugging Practices
+### Debugging and Logging
 
-1. Use strategic logging to debug
-2. Clean up debug output before committing
-3. Use dev-only debug helpers
+1. **Use a proper logging framework** instead of console.log
+2. Remove console.log statements before committing
+3. Clean up debug output before production
 4. Minimize linter suppressions
+5. Use structured logging with appropriate log levels
+6. For framework-specific logging tools, see the relevant section below
 
 ## Framework-Specific Guidelines
 
@@ -209,6 +217,33 @@ This document contains guidelines for AI coding assistants. It is structured wit
    - Include usage examples and anti-patterns
    - Document all color variables and their intended use
 
+#### Logging with Pino
+
+1. **Use Pino for web applications**:
+   ```js
+   import pino from 'pino';
+   const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
+   logger.info({ userId: user.id }, 'User logged in');
+   ```
+2. Configure environment-specific logging:
+   - Development: Pretty print with pino-pretty
+   - Production: JSON format for log aggregators
+   - Use structured logging with context objects
+3. Log levels guidelines:
+   - `trace`: Detailed flow for debugging
+   - `debug`: State changes and debugging info
+   - `info`: Important application events
+   - `warn`: Recoverable issues
+   - `error`: Failures with full context
+4. Example patterns:
+   ```js
+   // Good: Structured logging with context
+   logger.info({ orderId, userId, amount }, 'Order placed');
+   
+   // Bad: String concatenation
+   console.log('Order ' + orderId + ' placed by ' + userId);
+   ```
+
 #### Performance Practices
 
 1. Remove console.log in production
@@ -263,92 +298,110 @@ This document contains guidelines for AI coding assistants. It is structured wit
 **AI INSTRUCTION**: The following sections should be populated when setting up a new project. Update these sections with project-specific information as the project evolves.
 
 ### Project Overview [TO BE FILLED]
-<!-- 
-Add:
+
+**[PLACEHOLDER - REPLACE WITH ACTUAL CONTENT]**
 1. Project name and purpose
 2. Key features and functionality
 3. Target users
 4. High-level architecture decisions
--->
 
 ### Directory Structure [TO BE FILLED]
-<!-- 
+
+**[PLACEHOLDER - REPLACE WITH ACTUAL STRUCTURE]**
+
 Document the project's specific folder structure, for example:
 1. Where components live
 2. API route organization
 3. Utility function locations
 4. Type definition structure
 5. Asset management
--->
+
+### Project Documentation Index [TO BE FILLED]
+
+**[PLACEHOLDER - UPDATE AS DOCS ARE CREATED]**
+
+#### Required documents (AI should create these proactively):
+- `docs/TODO.md` - Development log and task tracker **[REQUIRED]**
+- `docs/20YYMMDD_product_requirements.md` - Product requirements and specifications **[REQUIRED]**
+
+#### Additional project-specific documents:
+- `docs/20YYMMDD_color_system.md` - Color palette and theming guidelines
+- `docs/20YYMMDD_logging.md` - Logging standards and practices
+- `docs/20YYMMDD_architecture.md` - System architecture overview
+
+**AI INSTRUCTION:**
+1. Check if required docs exist, create them if missing and notify user
+2. Add any new documentation files to this index as you create them
+3. Use actual dates (YYYYMMDD format) when creating files
 
 ### Code Organization Patterns [TO BE FILLED]
-<!-- 
-Define:
+
+**[PLACEHOLDER - DEFINE PROJECT PATTERNS]**
+
 1. Naming conventions
 2. File organization rules
 3. Import/export patterns
 4. Module boundaries
--->
 
 ### Domain-Specific Guidelines [TO BE FILLED]
-<!-- 
-Include:
+
+**[PLACEHOLDER - ADD DOMAIN-SPECIFIC RULES]**
+
 1. Business logic rules
 2. Data models and schemas
 3. API patterns
 4. Integration requirements
 5. Special considerations
--->
 
 ### UI/UX Standards [TO BE FILLED]
-<!-- 
-Specify:
+
+**[PLACEHOLDER - SPECIFY DESIGN STANDARDS]**
+
 1. Design system guidelines
 2. Accessibility requirements
 3. Responsive design rules
 4. Animation/transition standards
 5. Brand guidelines
--->
 
 ### Testing Strategy [TO BE FILLED]
-<!-- 
-Define:
+
+**[PLACEHOLDER - DEFINE TESTING APPROACH]**
+
 1. Testing framework and tools
 2. Test file locations
 3. Coverage requirements
 4. E2E testing approach
--->
 
 ### Deployment and Environment [TO BE FILLED]
-<!-- 
-Document:
+
+**[PLACEHOLDER - DOCUMENT DEPLOYMENT PROCESS]**
+
 1. Environment variables
 2. Build process
 3. Deployment pipeline
 4. Monitoring approach
--->
 
 ## Development Setup
 
 ### First Time Setup [TO BE FILLED]
-<!-- 
-List setup steps for new developers:
+
+**[PLACEHOLDER - LIST SETUP STEPS]**
+
 1. Clone repository
 2. Install dependencies
 3. Environment configuration
 4. Database setup
 5. Initial data/seed
--->
 
 ### Common Commands [TO BE FILLED]
-<!-- 
-Document frequently used commands:
+
+**[PLACEHOLDER - LIST COMMON COMMANDS]**
+
 1. Development server
 2. Testing
 3. Building
 4. Linting
 5. Database migrations
--->
 
 ---
 
